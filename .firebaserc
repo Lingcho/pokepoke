@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "pokegopoke-f6379": {
+      "hosting": {
+        "app": [
+          "pokegopoke-f6379"
+        ]
+      }
+    }
+  }
+}

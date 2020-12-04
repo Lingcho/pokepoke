@@ -1,0 +1,171 @@
+
+
+<ion-header *ngIf="!isLoading">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/pokemons"></ion-back-button>
+    </ion-buttons>
+    <ion-title> Poke Détail </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isLoading">
+    <ion-spinner name="bubbles"></ion-spinner>
+  </div>
+  
+  
+  <ion-grid fixed *ngIf="!isLoading">
+  <ion-row class="ion-justify-content-center">
+    <ion-col size-sm="6" class="ion-no-padding">
+      <ion-card>
+        <ion-row class="ion-justify-content-around">
+          <ion-card-header class="card-header">
+            <ion-card-subtitle>
+              {{loadedPokemon.national_id}}
+            </ion-card-subtitle>
+            <ion-card-title>
+              {{loadedPokemon.name}}
+            </ion-card-title>
+          </ion-card-header >
+          <ion-card-header class="ion-justify-content-end" class="card-header">
+            <span class="ion-text-capitalize" *ngFor="let type of loadedPokemon.type;let indexOfelement=index;" >
+              <ion-chip class="ion-padding-end" [ngStyle] = "{'background-color': colorType[indexOfelement]}">
+                 {{type.name}} 
+              </ion-chip>
+            </span>
+          </ion-card-header>
+        
+        </ion-row> 
+
+        <ion-row class="ion-justify-content-center">
+          
+          <ion-col size-xs="8" size-sm="6" size-md="8">
+            <ion-img [src] = "loadedPokemon.cover">
+          </ion-img></ion-col>
+        </ion-row>
+        <ion-row >
+          <ion-col size="" class="ion-padding-horizontal">
+            <ion-list >
+              
+              <ion-item lines="none" ><ion-label> Point de vie {{loadedPokemon.stats.pv}} </ion-label></ion-item>
+              <ion-progress-bar value="{{loadedPokemon.stats.pv/15}}"></ion-progress-bar>
+              <ion-item lines="none" ><ion-label> Défence {{loadedPokemon.stats.defense}} </ion-label></ion-item>
+              <ion-progress-bar value="{{loadedPokemon.stats.defense/15}}"></ion-progress-bar>
+              <ion-item lines="none" ><ion-label> Attaque {{loadedPokemon.stats.attaque}} </ion-label></ion-item>
+              <ion-progress-bar value="{{loadedPokemon.stats.attaque/15}}"></ion-progress-bar>
+            </ion-list>
+
+          </ion-col>
+          <ion-col size="" class="ion-padding-horizontal" >
+          <ion-list >
+              <ion-item lines="none" ><ion-label> Vitesse {{loadedPokemon.stats.vitesse}} </ion-label></ion-item>
+              <ion-progress-bar value="{{loadedPokemon.stats.vitesse/15}}"></ion-progress-bar>
+              <ion-item lines="none" ><ion-label> Défence Spé {{loadedPokemon.stats.defense}} </ion-label></ion-item>
+              <ion-progress-bar value="{{loadedPokemon.stats.defensespeciale/15}}"></ion-progress-bar>
+              <ion-item lines="none" ><ion-label> Attaque Spé {{loadedPokemon.stats.attaquespeciale}} </ion-label></ion-item>
+              <ion-progress-bar value="{{loadedPokemon.stats.attaquespeciale/15}}"></ion-progress-bar>
+            </ion-list>
+            </ion-col>
+            
+        </ion-row>
+        <ion-row  class="ion-text-center">
+          <ion-col size="" class="ion-padding-horizontal" class="ion-no-padding-bottom">
+            <div >
+              <ion-card-subtitle>Catégorie</ion-card-subtitle>
+              <ion-item lines="none" >
+                <ion-label class="ion-text-center">  {{loadedPokemon.morpho.categorie}} </ion-label>
+              </ion-item>
+            </div>
+          </ion-col>
+          <ion-col size="">
+            <div >
+              <ion-card-subtitle>Taille</ion-card-subtitle>
+              <ion-item lines="none">
+                <ion-label class="ion-text-center">{{loadedPokemon.morpho.taille}}</ion-label> 
+              </ion-item>
+            </div>
+          </ion-col>
+          <ion-col size="">
+            <div >
+              <ion-card-subtitle>Poids</ion-card-subtitle>
+              <ion-item lines="none" >
+                <ion-label class="ion-text-center">{{loadedPokemon.morpho.poids}}</ion-label> 
+              </ion-item>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-baseline">
+        
+            <ion-item lines="none"  >
+              <ion-card-subtitle>Faiblesses</ion-card-subtitle>
+            </ion-item>
+      
+            <span *ngFor="let weak of loadedPokemon.weaknesses;;let i=index;" > 
+              <ion-chip 
+              class="ion-text-capitalize"
+              [ngStyle] = "{'background-color': colorWeakness[i]}" 
+              >{{weak.name}} </ion-chip>
+            </span>
+        </ion-row>
+        <ion-row class="ion-align-items-baseline">
+          <ion-col size="" class="ion-padding-horizontal"  >
+           <div>
+            <ion-card-subtitle>Talent</ion-card-subtitle>
+           </div>
+           
+             <div>
+               <ion-chip color="primary" outline="true" (click)="onTalent()">
+                 <ion-label>{{loadedPokemon.abilities[0].name}} </ion-label>
+                 <ion-icon name="information-circle-outline"></ion-icon>
+               </ion-chip>
+              <p *ngIf="isTalent"> 
+               {{loadedPokemon.abilities[0].description}} 
+              </p>  
+             </div>
+             <div *ngIf="loadedPokemon.abilities[1]">
+              <ion-chip color="primary" outline="true" (click)="onTalent2()">
+                <ion-label>{{loadedPokemon.abilities[1].name}} </ion-label>
+                <ion-icon name="information-circle-outline"></ion-icon>
+              </ion-chip>
+             <p *ngIf="isTalent2"> 
+              {{loadedPokemon.abilities[1].description}} 
+             </p>          
+           </div>       
+          </ion-col>
+
+          <ion-col size="" class="ion-padding-horizontal">
+            <div>
+             <ion-card-subtitle>Histoire</ion-card-subtitle>
+            </div>
+            <div> 
+             <p > 
+              {{loadedPokemon.resume[0].part}}
+            </p> 
+            <span *ngIf="!isStory">
+                <ion-chip color="primary" outline="true" (click)="onStory()">
+                  <ion-label> + </ion-label>
+                </ion-chip>              
+            </span>
+            <p *ngIf="loadedPokemon.resume[1] && isStory" >
+              {{loadedPokemon.resume[1].part}}
+            </p>
+            <span *ngIf="isStory">
+              <ion-chip color="primary" outline="true" (click)="onStory()">
+                <ion-label> - </ion-label>
+              </ion-chip>              
+          </span>      
+             
+            </div>
+ 
+             
+           </ion-col>
+          
+        </ion-row>
+        
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+  </ion-grid>
+</ion-content>

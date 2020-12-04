@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Poke Poke</ion-title>
+    <ion-searchbar
+      showcancelbutton=""
+      (ionChange)="searchPokemon($event)"
+    ></ion-searchbar>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-grid >
+    <ion-row class="ion-no-padding">
+      <div *ngIf="loadedWithoutForm?.length < 1">
+        <ion-spinner name="bubbles"></ion-spinner>
+      </div>
+      <div *ngIf="!loadedWithoutForm">
+        <p>Pas de pokémon trouvé ... !</p>
+      </div>
+        <ion-col size-sm="3" size-md="3" size="6" class="ion-no-padding" *ngFor="let poke of loadedWithoutForm">
+          <div >
+            <ion-card [routerLink]= "['/', 'tabs', 'pokemons', poke.id]" >
+              <ion-chip>
+                <ion-icon name="ticket"></ion-icon>
+                <ion-label> {{poke.national_id}} </ion-label>
+              </ion-chip>
+              <ion-img [src]="poke.cover"></ion-img>
+             
+              <ion-card-header>
+                  <ion-card-subtitle> {{poke.name}} </ion-card-subtitle>
+                <p> {{poke.morpho.categorie}} </p>
+              </ion-card-header>
+            </ion-card>
+            
+          </div>
+  
+        </ion-col>
+      <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadMore($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
